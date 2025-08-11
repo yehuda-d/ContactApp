@@ -13,6 +13,8 @@
         <label for="name">Name </label><input type="text" id="name"><br>
         <label for="email">Email </label><input type="text" id="email"><br>
         <label for="phone">Phone </label><input type="text" id="phone"><br>
+        <label for="sort">sort </label><input type="text" id="sort" placeholder="search"><br>
+
         <button onclick="createOrEdit()">send</button><br><br>
     </div>
 
@@ -78,7 +80,7 @@
             document.getElementById("email").value = "";
             document.getElementById("phone").value = "";
             localStorage.setItem('nextID',JSON.stringify(id+1));
-            nextID++;
+            //nextID++;
         }
 
         //Delete
@@ -121,6 +123,24 @@
                 addContact();
             }
         }
+
+        //sort
+        document.getElementById("sort").addEventListener("input", function(){
+            let searchValue = this.value.trim().toLowerCase();
+            contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+            if(searchValue === ""){
+                creatTable(contacts);
+            }else{
+                let filterdContacts = contacts.filter(c => c.name.toLowerCase().startsWith(searchValue));
+                creatTable(filterdContacts);
+            }
+        });
+        // function sortContacts(){
+        //     contacts = JSON.parse(localStorage.getItem('contacts'));
+        //     contacts.sort((a, b) => a.name.localCompare(b.name));
+        //     localStorage.setItem('contacts',JSON.stringify(contacts));
+        //     creatTable(contacts);
+        // }
         creatTable(contacts);
     </script>
 </body>
