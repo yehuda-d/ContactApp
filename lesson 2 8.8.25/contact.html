@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label for="Email">Email </label><input type="text" id="email"><br>
+    <label for="name">Name </label><input type="text" id="name"><br>
+    <label for="phone">Phone </label><input type="text" id="phone"><br>
+    <button onclick="addContact()">send</button><br><br>
+    
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Delete</th>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody id="myTable"></tbody>
+</table>
+
+
+<script>
+    localStorage.setItem('contacts', JSON.stringify([{id:1,name:"yehuda",email:"z@z",phone:"050"}])); 
+    let contacts = JSON.parse(localStorage.getItem('contacts'));
+    //console.log(arr[0].name);
+    
+    //JSON.stringify(); // לןקח קוד והופך לג'ייסון    
+    //JSON.parse(); // עושה את הפעולה ההפוכה 
+    //setItem(); // שם בתוך הלוכל סטורג' 
+    //getItem();// לוקח מתוך הלוקכל סטורג
+
+    function creatTable(data){
+        let txt = "";
+        for (obj of data) {
+            txt += "<tr>";
+            txt += `<td><button>Delete</button></td>`
+                for ( key in obj) {
+                     txt+= `<td>${obj[key]}</td>`;
+                }
+                txt += `<td><button>Edit</button></td>`
+                txt += "</tr>";
+        }
+        document.getElementById("myTable").innerHTML = txt;
+    }
+
+    // function addContact(){
+    //     //let id = nextID;
+    //     let email = document.getElementById("email").value;
+    //     let name = document.getElementById("name").value;
+    //     let phone = document.getElementById("phone").value;
+
+    //     let obj = contacts;
+    //     contacts.push(obj);
+    //     creatTable(contacts);
+    //     document.getElementById("email").value = "";
+    //     document.getElementById("name").value = "";
+    //     document.getElementById("phone").value = "";
+
+    //     //nextID++;
+    // }
+    creatTable(contacts);
+</script>
+</body>
+</html>

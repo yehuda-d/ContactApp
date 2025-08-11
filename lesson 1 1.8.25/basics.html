@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+    <input type="hidden" id="id">
+    <label for="name">name:<input type="text" id="name"></label>
+    <button onclick="createOREdit()">send</button>
+    </div>
+    <br>
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Delete</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Update</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+    </tbody>
+    </table>
+    <script>
+        // let student = {id: 1, name:"Yehuda"};
+        // let txt = `<tr><td>${student.id}</td><td>${student.name}</td></tr>`;
+        // document.getElementById("myTable").innerHTML = txt;
+        let student = [
+            {id:1,name:"yehuda"},
+            {id:2,name:"roni"}
+        ];
+        let nextID = student.length +1;
+        let updateID = null;
+
+        //read
+        function creatTable(data){
+            let txt = "";
+            for ( obj of data) {
+                txt+="<tr>";                   
+                    txt += `<td><button onclick = "deleteStudent(${obj.id})">Delete</button></td>`; 
+                for (key in obj) {
+                    txt+= `<td>${obj[key]}</td>`;
+                }
+                txt += `<td><button onclick = "updateStudent(${obj.id})">Update</button></td>`;
+                txt += "</tr>"
+            }
+            document.getElementById("myTable").innerHTML = txt;
+        }
+        //create
+        function addStudent(){
+            // let id = document.getElementById("id").value;
+            let id = nextID;
+            let name = document.getElementById("name").value;
+            let obj = {id,name};
+            student.push(obj);
+            // console.log(student);
+            creatTable(student);
+            // document.getElementById("id").value = "";
+            document.getElementById("name").value = "";
+            nextID++;
+        }
+
+        //Delete
+        function deleteStudent(id){
+            student = student.filter(obj=>obj.id != id)
+            creatTable(student);
+        }
+
+        //Update
+        function updateStudent(id){
+            console.log(id);
+            
+            let stu =student.find(s => s.id === id);
+            if(stu){
+                document.getElementById("name").value = stu.name;
+                document.getElementById("id").value = stu.id;
+
+                //updateID = id;
+            }
+        }
+
+        function editStd(){
+            let id = Number(document.getElementById("id").value);
+            let name = document.getElementById("name").value;
+            let obj = student.find(o => o.id === id);
+            obj.name = name;
+        creatTable(student);
+            id = document.getElementById("id").value = "";
+            name = document.getElementById("name").value = "";
+        }
+
+        //create or edit
+        function createOREdit(){
+            let id = document.getElementById("id").value;
+            if(id){
+                editStd();
+            }else{
+                addStudent();
+            }
+        }
+        creatTable(student);
+    </script>
+</body>
+</html>
