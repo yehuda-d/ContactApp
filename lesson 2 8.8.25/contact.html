@@ -9,10 +9,11 @@
 
 <body>
     <div>
+        <input type="hidden" id="id">
         <label for="name">Name </label><input type="text" id="name"><br>
         <label for="email">Email </label><input type="text" id="email"><br>
         <label for="phone">Phone </label><input type="text" id="phone"><br>
-        <button onclick="addContact()">send</button><br><br>
+        <button onclick="createOrEdit()">send</button><br><br>
     </div>
 
     <table border="1">
@@ -88,19 +89,38 @@
             creatTable(contacts);
         }
 
-        //Update
+         //Update
         function editContact(id){
             contacts = JSON.parse(localStorage.getItem('contacts'));
-            let con =contacts.find(s => s.id === id);
-            if(con){
-                document.getElementById("name").value = con.name;
-                document.getElementById("id").value = con.id;
-                localStorage.setItem('contacts',JSON.stringify(contacts));
-                //updateID = id;
-            }
+            let obj =contacts.find(o => o.id === id);
+                document.getElementById("id").value = obj.id;
+                document.getElementById("name").value = obj.name;
+                document.getElementById("email").value = obj.email;
+                document.getElementById("phone").value = obj.phone;            
         }
 
-
+        function realEdit(){
+            let id = document.getElementById("id").value;
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let phone = document.getElementById("phone").value;
+            let obj = contacts.find(o=>o.id == id);
+            obj.name = name;
+            obj.email = email;
+            obj.phone = phone;
+            localStorage.setItem('contacts',JSON.stringify(contacts));
+            creatTable(contacts);
+        }
+        
+        //selector
+        function createOrEdit(){
+            let id = document.getElementById("id").value;
+            if(id){
+                realEdit();
+            }else{
+                addContact();
+            }
+        }
         creatTable(contacts);
     </script>
 </body>
