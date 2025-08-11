@@ -52,11 +52,11 @@
             let txt = "";
             for (obj of data) {
                 txt += "<tr>";
-                txt += `<td><button>Delete</button></td>`
+                txt += `<td><button onclick="deleteContact(${obj.id})">Delete</button></td>`
                 for (key in obj) {
                     txt += `<td>${obj[key]}</td>`;
                 }
-                txt += `<td><button>Edit</button></td>`
+                txt += `<td><button onclick = "editContact(${obj.id})"">Edit</button></td>`
                 txt += "</tr>";
             }
             document.getElementById("myTable").innerHTML = txt;
@@ -80,7 +80,27 @@
             nextID++;
         }
 
-        
+        //Delete
+        function deleteContact(id){
+            contacts = JSON.parse(localStorage.getItem('contacts'));
+            contacts = contacts.filter(obj=>obj.id != id);
+            localStorage.setItem('contacts',JSON.stringify(contacts));
+            creatTable(contacts);
+        }
+
+        //Update
+        function editContact(id){
+            contacts = JSON.parse(localStorage.getItem('contacts'));
+            let con =contacts.find(s => s.id === id);
+            if(con){
+                document.getElementById("name").value = con.name;
+                document.getElementById("id").value = con.id;
+                localStorage.setItem('contacts',JSON.stringify(contacts));
+                //updateID = id;
+            }
+        }
+
+
         creatTable(contacts);
     </script>
 </body>
